@@ -1,0 +1,149 @@
+public class Veiculo {
+    private String numeroChassi;
+    private String placa;
+    private String modelo;
+    private String nome;
+    private double valor;
+
+    // getters and setters
+    public String getNumeroChassi() {
+        return numeroChassi;
+    }
+
+    public void setNumeroChassi(String numeroChassi) {
+        this.numeroChassi = numeroChassi;
+    }
+
+    public String getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public double getValor() {
+        return valor;
+    }
+
+    public void setValor(double valor) {
+        this.valor = valor;
+    }
+}
+
+
+
+
+
+
+
+import java.util.*;
+
+public class VeiculoDAO {
+    private static List<Veiculo> veiculos = new ArrayList<Veiculo>();
+
+    public void inserir(Veiculo veiculo) {
+        veiculos.add(veiculo);
+    }
+
+    public Veiculo consultarId(int id) {
+        if (id >= 0 && id < veiculos.size()) {
+            return veiculos.get(id);
+        }
+        return null;
+    }
+
+    public Veiculo consultarPlaca(String placa) {
+        for (Veiculo veiculo : veiculos) {
+            if (veiculo.getPlaca().equals(placa)) {
+                return veiculo;
+            }
+        }
+        return null;
+    }
+
+    public void excluir(Veiculo veiculo) {
+        veiculos.remove(veiculo);
+    }
+
+    public void atualizar(int id, Veiculo novoVeiculo) {
+        if (id >= 0 && id < veiculos.size()) {
+            veiculos.set(id, novoVeiculo);
+        }
+    }
+}
+
+
+
+
+
+
+public class Main {
+    public static void main(String[] args) {
+        // Criação de uma instância de VeiculoDAO
+        VeiculoDAO veiculoDAO = new VeiculoDAO();
+
+        // Criação e inserção de veículos
+        Veiculo v1 = new Veiculo();
+        v1.setNumeroChassi("123456");
+        v1.setPlaca("XYZ-9876");
+        v1.setModelo("Modelo A");
+        v1.setNome("Veiculo A");
+        v1.setValor(10000);
+        veiculoDAO.inserir(v1);
+
+        Veiculo v2 = new Veiculo();
+        v2.setNumeroChassi("234567");
+        v2.setPlaca("ABC-1234");
+        v2.setModelo("Modelo B");
+        v2.setNome("Veiculo B");
+        v2.setValor(20000);
+        veiculoDAO.inserir(v2);
+
+        // Consulta por ID
+        Veiculo veiculoConsultado = veiculoDAO.consultarId(0); // Consulta o primeiro veículo inserido
+        if (veiculoConsultado != null) {
+            System.out.println("Consultado veículo por ID: " + veiculoConsultado.getNome());
+        }
+
+        // Consulta por placa
+        veiculoConsultado = veiculoDAO.consultarPlaca("ABC-1234"); // Consulta o veículo pela placa
+        if (veiculoConsultado != null) {
+            System.out.println("Consultado veículo por placa: " + veiculoConsultado.getNome());
+        }
+
+        // Atualização de veículo
+        Veiculo v3 = new Veiculo();
+        v3.setNumeroChassi("345678");
+        v3.setPlaca("DEF-5678");
+        v3.setModelo("Modelo C");
+        v3.setNome("Veiculo C");
+        v3.setValor(30000);
+        veiculoDAO.atualizar(0, v3); // Atualiza o primeiro veículo inserido
+
+        // Consulta após atualização
+        veiculoConsultado = veiculoDAO.consultarId(0); // Consulta o primeiro veículo inserido após a atualização
+        if (veiculoConsultado != null) {
+            System.out.println("Consultado veículo por ID após atualização: " + veiculoConsultado.getNome());
+        }
+
+        // Exclusão de veículo
+        veiculoDAO.excluir(v2); // Exclui o segundo veículo inserido
+    }
+}
